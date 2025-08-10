@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bekkaye amine - Portfolio</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Color Palette - Blue Gradients */
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #3b82f6;
+            --light-blue: #60a5fa;
+            --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+            --gradient-secondary: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            --gradient-light: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            --white: #ffffff;
+            --light-gray: #f8fafc;
+            --gray: #64748b;
+            --dark-gray: #334155;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary-blue);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0 0 80px 80px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="%23ffffff08" points="0,0 1000,300 1000,1000 0,700"/></svg>');
+            background-size: cover;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.7s forwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: white;
+            color: var(--primary-blue);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.9s forwards;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--light-gray);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .skill-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .skill-icon {
+            font-size: 2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-image {
+            height: 200px;
+            background: var(--gradient-secondary);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.3s ease;
+        }
+
+        .project-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Fallback placeholder when no image is provided */
+        .project-image:not(:has(img))::before {
+            content: '🖼️';
+            font-size: 3rem;
+            color: white;
+            opacity: 0.7;
+        }
+
+        /* Loading state for images */
+        .project-image img[src=""] {
+            display: none;
+        }
+
+        .project-image img:not([src]) {
+            display: none;
+        }
+
+        /* Image error handling */
+        .project-image img[alt]:not([src]),
+        .project-image img[src=""]:after {
+            content: attr(alt);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.5rem;
+            border-radius: 5px;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-blue);
+        }
+
+        .project-description {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: var(--gradient-light);
+            color: var(--primary-blue);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--secondary-blue);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .contact .section-title {
+            color: white;
+            background: none;
+            -webkit-text-fill-color: white;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 1rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .submit-btn {
+            background: white;
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-gray);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Project Details Modal */
+        .project-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .project-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 800px;
+            width: 90%;
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-blue);
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--secondary-blue);
+        }
+
+        .modal-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .modal-image:hover {
+            transform: scale(1.05);
+        }
+
+        .team-members {
+            margin-top: 1.5rem;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .team-member img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .team-member-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-meta {
+            margin: 1rem 0;
+            color: var(--gray);
+        }
+
+        .project-meta span {
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: left 0.3s ease;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Error message styles */
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .form-group.error input,
+        .form-group.error textarea {
+            border: 2px solid #ff6b6b;
+        }
+
+        /* Success message */
+        .success-message {
+            background: rgba(72, 187, 120, 0.2);
+            color: #48bb78;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">Bekkaye amine</div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Hi, I'm Bekkaye amine</h1>
+            <p>Full-Stack & Mobile Developer and UI/UX Designer passionate about creating amazing digital experiences</p>
+            <a href="#projects" class="cta-button">View My Work</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>I'm a passionate full-stack developer with 2 years of experience creating web applications that combine beautiful design with powerful functionality. I love turning complex problems into simple, elegant solutions.</p>
+                    <p>When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or enjoying outdoor adventures. I believe in continuous learning and staying up-to-date with the latest industry trends.</p>
+                </div>
+                <div class="skills-section">
+                    <h3>Skills & Technologies</h3>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <div class="skill-icon">⚛️</div>
+                            <h4>React</h4>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon"><img src="download.png" alt="Firebase icon"></div>
+                            <h4>Firebase</h4>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">📱</div>
+                            <h4>JavaScript</h4>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">🎨</div>
+                            <h4>CSS/SASS</h4>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon"><img src="icons8-supabase.svg" alt="Supabase icon"></div>
+                            <h4>Node.js</h4>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">🗄️</div>
+                            <h4>MongoDB</h4>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">☁️</div>
+                            <h4>AWS</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card" data-project='{
+                    "id": 0,
+                    "title": "E-Commerce Platform",
+                    "description": "A full-featured e-commerce solution with payment integration, inventory management, and responsive design.",
+                    "date": "2023-06-15",
+                    "category": "Web Development",
+                    "images": ["ui_.webp", "screenshot1.jpg", "screenshot2.jpg"],
+                    "team": [
+                        {"name": "John Doe", "role": "Frontend Developer", "image": "team1.jpg"},
+                        {"name": "Jane Smith", "role": "Backend Developer", "image": "team2.jpg"}
+                    ],
+                    "tags": ["React", "Node.js", "MongoDB", "Stripe"],
+                    "links": {"demo": "#", "github": "#"}
+                }'>
+                    <div class="project-image">
+                        <img src="ui_.webp" alt="E-Commerce Platform Screenshot" data-placeholder="🛒">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">E-Commerce Platform</h3>
+                        <p class="project-description">A full-featured e-commerce solution with payment integration, inventory management, and responsive design.</p>
+                        <div class="project-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">MongoDB</span>
+                            <span class="tag">Stripe</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Live Demo</a>
+                            <a href="#" class="project-link">GitHub</a>
+                            <a href="#" class="project-link view-details" data-project-id="0">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-project='{
+                    "id": 1,
+                    "title": "Mobile E-55Commerce",
+                    "description": "A mobile-first e-commerce application with seamless payment integration and real-time inventory updates.",
+                    "date": "2023-09-20",
+                    "category": "Mob5ile Development",
+                    "images": ["Screenshot 2025-05-27 175535.png", "doctofind4.png", "doctofind4.png","doctofind4.png"],
+                 
+                    "tags": ["Flutter", "Dart", "Firebase", "Supabase","hainourhane"],
+                    "links": {"demo": "#", "github": "#"}
+                }'>
+                    <div class="project-image">
+                        <img src="Screenshot 2025-05-27 175535.png" alt="Mobile E-Commerce Screenshot" data-placeholder="🛒">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">application de gestion de clinique medicale </h3>
+                        <p class="project-description">A mobile-first e-commerce application with seamless payment integration and real-time inventory updates.</p>
+                        <div class="project-tags">
+                            <span class="tag">Flutter</span>
+                            <span class="tag">Dart</span>
+                            <span class="tag">Firebase</span>
+                            <span class="tag">Supabase</span>
+                            <span class="tag">hainourhane</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Live Demo</a>
+                            <a href="#" class="project-link">GitHub</a>
+                            <a href="#" class="project-link view-details" data-project-id="1">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-project='{
+                    "id": 2,
+                    "title": "guide touristique ",
+                    "description": "A collaborative task management application with real-time updates and team collaboration features.",
+                    "date": "2023-03-10",
+                    "category": "Web Application",
+                    "images": ["task1.jpg", "task2.jpg"],
+                    "team": [
+                        {"name": "Mike Johnson", "role": "Full Stack Developer", "image": "team5.jpg"}
+                    ],
+                    "tags": ["Vue.js", "Firebase", "Socket.io"],
+                    "links": {"demo": "#", "github": "#"}
+                }'>
+                    <div class="project-image">
+                        <img src="" alt="Task Management App Screenshot" data-placeholder="📋">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Task Management App</h3>
+                        <p class="project-description">A collaborative task management application with real-time updates and team collaboration features.</p>
+                        <div class="project-tags">
+                            <span class="tag">Vue.js</span>
+                            <span class="tag">Firebase</span>
+                            <span class="tag">Socket.io</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Live Demo</a>
+                            <a href="#" class="project-link">GitHub</a>
+                            <a href="#" class="project-link view-details" data-project-id="2">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-project='{
+                    "id": 3,
+                    "title": "Portfolio Website",
+                    "description": "A responsive portfolio website with smooth animations and modern design principles.",
+                    "date": "2024-01-11",
+                    "category": "Web Development",
+                    "images": ["portfolio1.jpg", "portfolio2.jpg"],
+                    "team": [],
+                    "tags": ["HTML5", "CSS3", "JavaScript"],
+                    "links": {"demo": "#", "github": "#"}
+                }'>
+                    <div class="project-image">
+                        <img src="" alt="Portfolio Website Screenshot" data-placeholder="💼">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Portfolio Website</h3>
+                        <p class="project-description">A responsive portfolio website with smooth animations and modern design principles.</p>
+                        <div class="project-tags">
+                            <span class="tag">HTML5</span>
+                            <span class="tag">CSS3</span>
+                            <span class="tag">JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Live Demo</a>
+                            <a href="#" class="project-link">GitHub</a>
+                            <a href="#" class="project-link view-details" data-project-id="3">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Let's Work Together</h3>
+                    <p>I'm always interested in new opportunities and exciting projects. Whether you have a question or just want to say hi, feel free to drop me a message!</p>
+                    <p><strong>Email:</strong> alex@example.com</p>
+                    <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+                    <p><strong>Location:</strong> San Francisco, CA</p>
+                </div>
+                <form class="contact-form" id="contact-form">
+                    <div id="success-message" class="success-message" style="display: none;">
+                        Thank you! Your message has been sent successfully.
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text" id="name" name="name" required>
+                        <div class="error-message" id="name-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                        <div class="error-message" id="email-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                        <div class="error-message" id="message-error"></div>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Details Modal -->
+    <div class="project-modal" id="project-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">×</span>
+            <h2 id="modal-title" class="project-title"></h2>
+            <div class="project-meta">
+                <p><span>Date:</span> <span id="modal-date"></span></p>
+                <p><span>Category:</span> <span id="modal-category"></span></p>
+            </div>
+            <p id="modal-description" class="project-description"></p>
+            <div class="modal-gallery" id="modal-gallery"></div>
+            <div class="team-members" id="modal-team">
+                <h3>Team Members</h3>
+            </div>
+            <div class="project-links" id="modal-links"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Alex Johnson. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe sections for scroll animations
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Project cards hover effect with stagger
+        const projectCards = document.querySelectorAll('.project-card');
+        projectCards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+            
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Skills animation on scroll
+        const skillItems = document.querySelectorAll('.skill-item');
+        const skillsObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        skillItems.forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(30px)';
+            item.style.transition = 'all 0.6s ease';
+            skillsObserver.observe(item);
+        });
+
+        // Form validation and submission
+        const contactForm = document.getElementById('contact-form');
+        const successMessage = document.getElementById('success-message');
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function showError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const errorElement = document.getElementById(fieldId + '-error');
+            field.parentElement.classList.add('error');
+            errorElement.textContent = message;
+        }
+
+        function clearError(fieldId) {
+            const field = document.getElementById(fieldId);
+            const errorElement = document.getElementById(fieldId + '-error');
+            field.parentElement.classList.remove('error');
+            errorElement.textContent = '';
+        }
+
+        function clearAllErrors() {
+            ['name', 'email', 'message'].forEach(clearError);
+        }
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Clear previous errors
+            clearAllErrors();
+            successMessage.style.display = 'none';
+            
+            // Get form values
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            let isValid = true;
+            
+            // Validate name
+            if (!name) {
+                showError('name', 'Name is required');
+                isValid = false;
+            } else if (name.length < 2) {
+                showError('name', 'Name must be at least 2 characters');
+                isValid = false;
+            }
+            
+            // Validate email
+            if (!email) {
+                showError('email', 'Email is required');
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                showError('email', 'Please enter a valid email address');
+                isValid = false;
+            }
+            
+            // Validate message
+            if (!message) {
+                showError('message', 'Message is required');
+                isValid = false;
+            } else if (message.length < 10) {
+                showError('message', 'Message must be at least 10 characters');
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // Simulate form submission
+                const submitBtn = contactForm.querySelector('.submit-btn');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Sending...';
+                submitBtn.disabled = true;
+                
+                setTimeout(() => {
+                    successMessage.style.display = 'block';
+                    contactForm.reset();
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // Scroll to success message
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 1500);
+            }
+        });
+
+        // Real-time validation feedback
+        document.getElementById('name').addEventListener('input', function() {
+            if (this.value.trim().length >= 2) {
+                clearError('name');
+            }
+        });
+
+        document.getElementById('email').addEventListener('input', function() {
+            if (validateEmail(this.value.trim())) {
+                clearError('email');
+            }
+        });
+
+        document.getElementById('message').addEventListener('input', function() {
+            if (this.value.trim().length >= 10) {
+                clearError('message');
+            }
+        });
+
+        // Add floating animation to hero section
+        const heroContent = document.querySelector('.hero-content');
+        heroContent.classList.add('floating');
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroSection = document.querySelector('.hero');
+            if (heroSection) {
+                heroSection.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Add loading animation for projects
+        const projectsSection = document.getElementById('projects');
+        const projectsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const cards = entry.target.querySelectorAll('.project-card');
+                    cards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, index * 200);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        // Initially hide project cards for animation
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(50px)';
+            card.style.transition = 'all 0.8s ease';
+        });
+
+        projectsObserver.observe(projectsSection);
+
+        // Dynamic typing effect for hero text (optional enhancement)
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Add scroll progress indicator
+        const progressBar = document.createElement('div');
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6, #60a5fa);
+            z-index: 9999;
+            transition: width 0.3s ease;
+        `;
+        document.body.appendChild(progressBar);
+
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            progressBar.style.width = scrolled + '%';
+        });
+
+        // Add particle effect to hero section (lightweight version)
+        function createParticles() {
+            const hero = document.querySelector('.hero');
+            const particlesContainer = document.createElement('div');
+            particlesContainer.style.cssText = `
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                overflow: hidden;
+            `;
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: absolute;
+                    width: 4px;
+                    height: 4px;
+                    background: rgba(255, 255, 255, 0.3);
+                    border-radius: 50%;
+                    animation: float ${3 + Math.random() * 4}s ease-in-out infinite;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation-delay: ${Math.random() * 5}s;
+                `;
+                particlesContainer.appendChild(particle);
+            }
+            
+            hero.appendChild(particlesContainer);
+        }
+
+        // Initialize particles after page load
+        window.addEventListener('load', createParticles);
+
+        // Add easter egg - Konami code
+        let konamiCode = [];
+        const konamiSequence = [
+            'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+            'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+            'KeyB', 'KeyA'
+        ];
+
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.code);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (konamiCode.join('') === konamiSequence.join('')) {
+                // Easter egg activated
+                document.body.style.animation = 'rainbow 2s ease-in-out';
+                setTimeout(() => {
+                    document.body.style.animation = '';
+                }, 2000);
+                konamiCode = [];
+            }
+        });
+
+        // Add rainbow animation for easter egg
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes rainbow {
+                0% { filter: hue-rotate(0deg); }
+                25% { filter: hue-rotate(90deg); }
+                50% { filter: hue-rotate(180deg); }
+                75% { filter: hue-rotate(270deg); }
+                100% { filter: hue-rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Performance optimization - Debounce scroll events
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Apply debouncing to scroll-heavy functions
+        const debouncedScroll = debounce(() => {
+            // Any scroll-heavy operations can go here
+        }, 16); // ~60fps
+
+        window.addEventListener('scroll', debouncedScroll);
+
+        // Preload images and optimize performance
+        function preloadImages() {
+            const imageUrls = [
+                'ui_.webp',
+                'Screenshot 2025-05-27 175535.png'
+                // Add more image URLs here
+            ];
+            
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+        }
+
+        // Image handling for project cards
+        function initializeProjectImages() {
+            const projectImages = document.querySelectorAll('.project-image img');
+            
+            projectImages.forEach(img => {
+                const placeholder = img.getAttribute('data-placeholder') || '🖼️';
+                const container = img.parentElement;
+                
+                // Create placeholder element
+                const placeholderDiv = document.createElement('div');
+                placeholderDiv.className = 'image-placeholder';
+                placeholderDiv.innerHTML = placeholder;
+                placeholderDiv.style.cssText = `
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    font-size: 3rem;
+                    color: white;
+                    opacity: 0.7;
+                    pointer-events: none;
+                `;
+                
+                // Show placeholder initially
+                container.appendChild(placeholderDiv);
+                img.style.display = 'none';
+                
+                // Handle image load
+                img.addEventListener('load', function() {
+                    if (this.src && this.src !== '') {
+                        this.style.display = 'block';
+                        placeholderDiv.style.display = 'none';
+                    }
+                });
+                
+                // Handle image error
+                img.addEventListener('error', function() {
+                    this.style.display = 'none';
+                    placeholderDiv.style.display = 'block';
+                });
+                
+                // Check if image already has src and is loaded
+                if (img.src && img.src !== '' && img.complete) {
+                    img.style.display = 'block';
+                    placeholderDiv.style.display = 'none';
+                }
+            });
+        }
+
+        // Function to easily add images to projects
+        function setProjectImage(projectIndex, imageSrc) {
+            const projectCards = document.querySelectorAll('.project-card');
+            if (projectIndex < projectCards.length) {
+                const img = projectCards[projectIndex].querySelector('.project-image img');
+                const placeholder = projectCards[projectIndex].querySelector('.image-placeholder');
+                const projectData = JSON.parse(projectCards[projectIndex].getAttribute('data-project'));
+                
+                // Update main image
+                img.src = imageSrc;
+                
+                // Update project data images array
+                projectData.images[0] = imageSrc;
+                projectCards[projectIndex].setAttribute('data-project', JSON.stringify(projectData));
+                
+                // Show loading state
+                img.style.display = 'none';
+                if (placeholder) placeholder.style.display = 'block';
+            }
+        }
+
+        // Project Details Modal Functions
+        function showProjectDetails(projectData) {
+            const modal = document.getElementById('project-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDate = document.getElementById('modal-date');
+            const modalCategory = document.getElementById('modal-category');
+            const modalDescription = document.getElementById('modal-description');
+            const modalGallery = document.getElementById('modal-gallery');
+            const modalTeam = document.getElementById('modal-team');
+            const modalLinks = document.getElementById('modal-links');
+
+            // Set basic project info
+            modalTitle.textContent = projectData.title;
+            modalDate.textContent = projectData.date;
+            modalCategory.textContent = projectData.category;
+            modalDescription.textContent = projectData.description;
+
+            // Clear previous content
+            modalGallery.innerHTML = '';
+            modalTeam.innerHTML = '<h3>Team Members</h3>';
+            modalLinks.innerHTML = '';
+
+            // Populate gallery
+            projectData.images.forEach(image => {
+                const img = document.createElement('img');
+                img.src = image;
+                img.className = 'modal-image';
+                img.alt = `${projectData.title} screenshot`;
+                modalGallery.appendChild(img);
+            });
+
+            // Populate team members
+            if (projectData.team && projectData.team.length > 0) {
+                projectData.team.forEach(member => {
+                    const memberDiv = document.createElement('div');
+                    memberDiv.className = 'team-member';
+                    memberDiv.innerHTML = `
+                        <img src="${member.image}" alt="${member.name}">
+                        <div class="team-member-info">
+                            <span class="member-name">${member.name}</span>
+                            <span class="member-role">${member.role}</span>
+                        </div>
+                    `;
+                    modalTeam.appendChild(memberDiv);
+                });
+            } else {
+                modalTeam.innerHTML += '<p>No team members assigned</p>';
+            }
+
+            // Populate links
+            if (projectData.links) {
+                for (const [key, value] of Object.entries(projectData.links)) {
+                    const link = document.createElement('a');
+                    link.href = value;
+                    link.className = 'project-link';
+                    link.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+                    modalLinks.appendChild(link);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProjectModal() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Event listeners for project details
+        document.querySelectorAll('.view-details').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const projectId = button.getAttribute('data-project-id');
+                const projectCard = button.closest('.project-card');
+                const projectData = JSON.parse(projectCard.getAttribute('data-project'));
+                showProjectDetails(projectData);
+            });
+        });
+
+        document.getElementById('close-modal').addEventListener('click', closeProjectModal);
+
+        // Close modal when clicking outside
+        document.getElementById('project-modal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeProjectModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeProjectModal();
+            }
+        });
+
+        // Initialize project images when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeProjectImages();
+            preloadImages();
+            
+            // Add fade-in animation to the entire page
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease-in-out';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+            
+            // Set project images
+            setProjectImage(0, 'ui_.webp');
+            setProjectImage(1, 'Screenshot 2025-05-27 175535.png');
+        });
+
+        // Add keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+
+        document.addEventListener('mousedown', () => {
+            document.body.classList.remove('keyboard-navigation');
+        });
+
+        // Add focus styles for better accessibility
+        const focusStyle = document.createElement('style');
+        focusStyle.textContent = `
+            .keyboard-navigation *:focus {
+                outline: 2px solid #3b82f6 !important;
+                outline-offset: 2px !important;
+            }
+        `;
+        document.head.appendChild(focusStyle);
+    </script>
+</body>
+</html>
