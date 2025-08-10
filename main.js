@@ -1,5 +1,4 @@
 
-'use strict';
 
 //Opening or closing side bar
 
