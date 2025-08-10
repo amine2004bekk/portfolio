@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 'use strict';
 
 //Opening or closing side bar
@@ -130,7 +130,7 @@ for(let i = 0; i < navigationLinks.length; i++) {
             }
         }
     });
-=======
+
 'use strict';
 
 //Opening or closing side bar
@@ -262,5 +262,5 @@ for(let i = 0; i < navigationLinks.length; i++) {
             }
         }
     });
->>>>>>> 7f7b9241609701de06353e7c004da5bc0dd2d9fc
+}
 }
