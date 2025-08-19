@@ -715,9 +715,9 @@
                 <section class="contact-form">
                     <h3 class="h3 form-title">Contact Form</h3>
 
-                    <form action="#" class="form" data-form>
+                    <form action="/" class="form" data-form method="post" action="https://formspree.io/f/contact-form "id="contact-form">
                         <div class="input-wrapper">
-                            <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
+                            <input type="text" name="name" class="form-input" placeholder="Full name" required data-form-input>
                             <input type="email" name="email" class="form-input" placeholder="Email Address" required data-form-input>
                         </div>
 
@@ -737,6 +737,24 @@
  <script src="main.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("ZvqMIP7jU-dUFoz_r"); // Replace with your EmailJS public key
+  })();
+
+  document.getElementById("contact-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    emailjs.sendForm("service_miyuo0q", "template_jj6bwpv", this)
+      .then(function() {
+        alert("Message sent successfully!");
+      }, function(error) {
+        alert("Failed to send message: " + JSON.stringify(error));
+      });
+  });
+</script>
 </body>
 
 </html>
